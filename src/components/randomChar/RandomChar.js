@@ -6,13 +6,10 @@ import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../error/ErrorMessage";
 
 class RandomChar extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     state = {
-        char: {},
-        loading: true,
+        char: {} ,
+        loading: true ,
         error: false
     }
 
@@ -23,14 +20,19 @@ class RandomChar extends Component {
     marvelService = new MarvelService();
 
     onCharLoaded = (char) => {
-        this.setState({char, loading: false})
+        this.setState({char , loading: false})
 
     }
     onError = () => {
-        this.setState({error: true, loading: false,})
+        this.setState({error: true , loading: false})
+    }
+
+    onCharLoading = () => {
+        this.setState({loading: true})
     }
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        this.onCharLoading()
         this.marvelService
             .getCharacters(id)
             .then(this.onCharLoaded)
@@ -38,7 +40,7 @@ class RandomChar extends Component {
     }
 
     render() {
-        const {char, loading, error} = this.state
+        const {char , loading , error} = this.state
         const spinner = loading ? <Spinner/> : null
         const errorMessage = error ? <ErrorMessage/> : null
         const content = !(loading || error) ? <View char={char}/> : null
@@ -66,10 +68,10 @@ class RandomChar extends Component {
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki} = char
-    let imgStyle = {'objectFit' : 'cover'};
-    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-        imgStyle = {'objectFit' : 'contain'};
+    const {name , description , thumbnail , homepage , wiki} = char
+    let imgStyle = {'objectFit': 'cover'};
+    if(thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+        imgStyle = {'objectFit': 'contain'};
     }
     return (
         <div className="randomchar__block">
